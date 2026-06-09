@@ -1,0 +1,54 @@
+{
+  "name": "@gldc/seerr-cli",
+  "version": "0.1.0",
+  "description": "Unofficial, AI-agent-optimized CLI for Seerr (the Overseerr/Jellyseerr-lineage media request manager).",
+  "type": "module",
+  "bin": {
+    "seerr": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "bun": ">=1.1.0"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "seerr": "bun run src/index.ts",
+    "test": "bun test test",
+    "test:live": "bun test test/live",
+    "typecheck": "tsc --noEmit",
+    "build": "bun build src/index.ts --compile --no-compile-autoload-dotenv --outfile dist/seerr",
+    "describe": "bun run src/index.ts describe"
+  },
+  "keywords": [
+    "seerr",
+    "overseerr",
+    "jellyseerr",
+    "cli",
+    "ai-agent",
+    "agent",
+    "plex",
+    "media-requests"
+  ],
+  "license": "MIT",
+  "author": "gldc",
+  "homepage": "https://github.com/gldc/seerr-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gldc/seerr-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gldc/seerr-cli/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
+}

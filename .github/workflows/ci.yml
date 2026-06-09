@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bunx tsc --noEmit
+
+      - name: Test
+        run: bun test test
+        env:
+          CI: "true"
+
+      - name: Build binary
+        run: bun build src/index.ts --compile --no-compile-autoload-dotenv --outfile dist/seerr
+
+      - name: Zero-dependency guard
+        run: bun -e "const p=require('./package.json'); if(Object.keys(p.dependencies||{}).length){console.error('unexpected runtime deps');process.exit(1)}"
