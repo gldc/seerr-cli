@@ -4,7 +4,7 @@
   "description": "Unofficial, AI-agent-optimized CLI for Seerr (the Overseerr/Jellyseerr-lineage media request manager).",
   "type": "module",
   "bin": {
-    "seerr": "./src/index.ts"
+    "seerr": "src/index.ts"
   },
   "files": [
     "src",
@@ -21,7 +21,8 @@
     "test:live": "bun test test/live",
     "typecheck": "tsc --noEmit",
     "build": "bun build src/index.ts --compile --no-compile-autoload-dotenv --outfile dist/seerr",
-    "describe": "bun run src/index.ts describe"
+    "describe": "bun run src/index.ts describe",
+    "prepublishOnly": "bun run typecheck"
   },
   "keywords": [
     "seerr",
