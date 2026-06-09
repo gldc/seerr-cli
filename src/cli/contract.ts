@@ -28,5 +28,10 @@ export interface CommandSpec {
    * self-discovery before any config exists).
    */
   requiresClient?: boolean;
+  /**
+   * Human-only interactive command (e.g. `init`). The runner runs a dedicated
+   * prompt flow instead of the JSON handler, and refuses when there's no TTY.
+   */
+  interactive?: boolean;
   handler: (ctx: CommandContext, input: Input) => Promise<HandlerResult>;
 }

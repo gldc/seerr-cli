@@ -1,6 +1,7 @@
 import { describeCommand } from "../commands/describe";
 import { discoverCommand } from "../commands/discover";
 import { doctorCommand } from "../commands/doctor";
+import { initCommand } from "../commands/init";
 import { movieCommand, tvCommand } from "../commands/media";
 import {
   requestApproveCommand,
@@ -18,6 +19,7 @@ import type { CommandSpec } from "./contract";
 export type { CommandContext, CommandSpec } from "./contract";
 
 export const registry: CommandSpec[] = [
+  initCommand,
   statusCommand,
   doctorCommand,
   searchCommand,

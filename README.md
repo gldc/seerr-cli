@@ -39,6 +39,17 @@ Or download a prebuilt, self-contained binary for your platform from
 
 ## Configure
 
+The fastest way — run the interactive setup once:
+
+```bash
+seerr init
+```
+
+It prompts for your **Seerr URL** and **API key** (key entry is hidden), writes
+`~/.config/seerr/config` at `chmod 600`, then validates the connection and tells you when you're
+ready. It's human-only: run in a terminal (an agent/non-TTY invocation gets a clean error, never a
+hang). Prefer manual setup? Read on.
+
 Two settings drive everything. `SEERR_URL` is **required** (there is no default); the API key is
 required for any command that talks to your account.
 
@@ -75,6 +86,7 @@ The CLI warns on stderr if that file is group- or world-readable. Alternatively,
 
 | Command | Auth | Summary |
 |---|---|---|
+| `init` | no | Interactive first-run setup: prompts for URL + key, writes the config, validates. |
 | `status` | no | Seerr version / update info (no key required). |
 | `doctor` | no | Diagnose config & connectivity; reports `apiKey` as set/unset only. |
 | `search <query>` | yes | Search movies, TV, and people. |

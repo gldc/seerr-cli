@@ -1,5 +1,6 @@
 import pkg from "../../package.json";
 import { SeerrClient, SeerrError } from "../client/seerr";
+import { defaultInitIO, runInit } from "../commands/init";
 import { resolveConfig, type RawFlags, type ResolveDeps } from "../config";
 import type { GlobalFlags } from "../types";
 import { redact, renderError, renderSuccess, type RenderResult } from "./output";
@@ -125,6 +126,26 @@ export async function run(argv: string[], deps: RunDeps = {}): Promise<RenderRes
       },
       global,
     );
+  }
+
+  // Interactive, human-only commands (`init`) run a prompt flow that writes to the
+  // terminal directly. Refuse without a TTY so an agent never hangs on a prompt.
+  if (command.interactive) {
+    const tty = deps.isTTY ?? (process.stdin.isTTY === true && process.stdout.isTTY === true);
+    if (!tty) {
+      return renderError(
+        new SeerrError("usage", "`seerr init` is interactive; run it in a terminal.", {
+          hint: "For non-interactive setup, create ~/.config/seerr/config or set SEERR_URL and SEERR_API_KEY.",
+        }),
+        global,
+      );
+    }
+    const code = await runInit(defaultInitIO(), {
+      env: deps.env,
+      fetchImpl: deps.fetchImpl,
+      force: cmdArgv.includes("--force"),
+    });
+    return { exitCode: code, stdout: "", stderr: "" };
   }
 
   let secret = "";

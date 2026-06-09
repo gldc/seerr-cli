@@ -25,7 +25,8 @@ export function buildManifest(registry: CommandSpec[]) {
     version: (pkg as { version: string }).version,
     unofficial: true,
     usage:
-      "Auth is configured out-of-band (a config file or the SEERR_API_KEY env var); an API key is " +
+      "Humans set up auth once with the interactive `seerr init`. Auth is configured out-of-band (a " +
+      "config file or the SEERR_API_KEY env var); an API key is " +
       "NEVER passed on the command line. Output is JSON {ok,data,meta} on success and {ok,error} on " +
       "failure. To request something by title: (1) `seerr search` the title, (2) take `tmdbId` from a " +
       "result, (3) `seerr request create --media-type movie|tv --media-id <tmdbId>`. Availability is " +
