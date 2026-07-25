@@ -89,7 +89,12 @@ export function buildApiUrl(
     for (const [k, v] of Object.entries(query)) {
       if (v !== undefined && v !== null && v !== "") qs.set(k, String(v));
     }
-    const s = qs.toString();
+    // URLSearchParams serializes with form encoding, where a space becomes '+'.
+    // Seerr validates that parameters are percent-encoded and rejects that with
+    // 400 "Parameter 'query' must be url encoded", so every multi-word search
+    // failed. Only separator '+' is rewritten — a literal '+' inside a value was
+    // already escaped to %2B by URLSearchParams, so it is unaffected.
+    const s = qs.toString().replace(/\+/g, "%20");
     if (s) u += "?" + s;
   }
   return u;

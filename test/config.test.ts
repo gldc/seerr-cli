@@ -39,6 +39,26 @@ describe("buildApiUrl", () => {
     expect(u).toContain("query=dune");
     expect(u).toContain("page=2");
   });
+
+  // Seerr validates that `query` is percent-encoded and rejects reserved
+  // characters: URLSearchParams' form encoding (space -> '+') comes back as
+  // 400 "Parameter 'query' must be url encoded", which broke EVERY multi-word
+  // search.
+  test("percent-encodes spaces rather than using form '+' encoding", () => {
+    const u = buildApiUrl("https://h", "/search", { query: "Dune Part Two" });
+    expect(u).toContain("query=Dune%20Part%20Two");
+    expect(u).not.toContain("+");
+  });
+
+  test("percent-encodes reserved characters in a value", () => {
+    const u = buildApiUrl("https://h", "/search", { query: "Dune: Part Two" });
+    expect(u).toContain("query=Dune%3A%20Part%20Two");
+  });
+
+  test("a literal '+' in the value survives as %2B", () => {
+    const u = buildApiUrl("https://h", "/search", { query: "C++ tutorial" });
+    expect(u).toContain("query=C%2B%2B%20tutorial");
+  });
 });
 
 describe("isPrivateHost", () => {
